@@ -17,9 +17,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\FieldsBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IDataverseContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processors\BulkExecutor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IBulkExecutor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IQueryPager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processors\QueryPager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Processors\" />
   </ItemGroup>
 </Project>
