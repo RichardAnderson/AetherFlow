@@ -8,14 +8,8 @@ namespace AetherFlow.Xrm.Framework.Core
 {
     public class DataverseContainer : IDataverseContainer
     {
-        private readonly IDictionary<Type, Type> _implementations;
-        private readonly IList<object> _services;
-
-        public DataverseContainer()
-        {
-            _implementations = new Dictionary<Type, Type>();
-            _services = new List<object>();
-        }
+        private readonly IDictionary<Type, Type> _implementations = new Dictionary<Type, Type>();
+        private readonly IList<object> _services = new List<object>();
 
         public void Initialize(Assembly assembly, string rootNamespace)
         {

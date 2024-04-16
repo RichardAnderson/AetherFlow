@@ -7,35 +7,25 @@ using Microsoft.Xrm.Sdk.Messages;
 
 namespace AetherFlow.Xrm.Framework.Core
 {
-    public abstract class EntityBase
+    public abstract class EntityBase : EntityTracker
     {
-        private IDictionary<string, object> _changes = new Dictionary<string, object>();
-        private Guid? _entityGuid;
-        private readonly string _logicalName;
-        private readonly IOrganizationService _service;
-        private readonly IDictionary<string, object> _values = new Dictionary<string, object>();
-
-        protected bool PreOperation = false;
+        protected readonly IOrganizationService Service;
+        protected bool IsPreOperation = false;
         protected Entity TargetEntity = null;
 
         /// <summary>
-        ///     Constructor used to setup an existing entity
+        ///     Constructor used to set up an existing entity
         /// </summary>
+        /// <param name="logicalName"></param>
         /// <param name="record"></param>
         /// <param name="service"></param>
         protected EntityBase(string logicalName, Entity record, IOrganizationService service)
+            : base(logicalName, record.Id, record.Attributes)
         {
-            // Process ID
-            _entityGuid = record.Id;
-            _logicalName = logicalName;
-            _service = service;
+            Service = service;
 
-            if (_logicalName != record.LogicalName)
+            if (logicalName != record.LogicalName)
                 throw new Exception("An invalid entity type was provided.");
-
-            // Process attributes
-            foreach (var attribute in record.Attributes)
-                _values.Add(attribute);
         }
 
         /// <summary>
@@ -44,9 +34,9 @@ namespace AetherFlow.Xrm.Framework.Core
         /// <param name="logicalName"></param>
         /// <param name="service"></param>
         protected EntityBase(string logicalName, IOrganizationService service = null)
+            : base(logicalName)
         {
-            _logicalName = logicalName;
-            _service = service;
+            Service = service;
         }
 
         /// <summary>
@@ -56,38 +46,15 @@ namespace AetherFlow.Xrm.Framework.Core
         /// <param name="id"></param>
         /// <param name="service"></param>
         protected EntityBase(string logicalName, Guid id, IOrganizationService service)
+            : base(logicalName, id)
         {
-            _logicalName = logicalName;
-            _entityGuid = id;
-            _service = service;
+            Service = service;
         }
-
-        public Guid? Id
-        {
-            get => _entityGuid;
-            set => _entityGuid = value;
-        }
-
-        public object this[string attributeName]
-        {
-            get =>
-                _values.ContainsKey(attributeName)
-                    ? _values[attributeName]
-                    : null;
-            set
-            {
-                // Set the current value & changes dictionaries 
-                _values[attributeName] = value;
-                _changes[attributeName] = value;
-            }
-        }
-
-        public bool IsDirty() => _changes.Count > 0;
 
         public void RegisterAsPreOperation(Entity target)
         {
             TargetEntity = target;
-            PreOperation = true;
+            IsPreOperation = true;
         }
 
         /// <summary>
@@ -97,48 +64,28 @@ namespace AetherFlow.Xrm.Framework.Core
         public void Save()
         {
             // Validate service object
-            if (_service == null)
+            if (Service == null)
                 throw new Exception("Unable to save an entity object without a service object");
 
-            // 21.10.2015, RA:  Updated to allow for preoperation plugins
-            //                  to correctly update the target entity
-            if (PreOperation && TargetEntity != null)
+            if (IsPreOperation && TargetEntity != null)
             {
-                foreach (var c in _changes)
+                foreach (var c in Changes) 
                     TargetEntity[c.Key] = c.Value;
+                Changes = new Dictionary<string, object>();
                 return;
             }
 
-            // Create the new Entity object
-            var obj = new Entity(_logicalName);
-
-            // Add all changes attributes;
-            obj.Attributes.AddRange(_changes);
-
-            // Check if this is an Update
-            if (_entityGuid != null)
-            {
-                // RA:  27.11.2016  -   Ensure there are changes!
-                if (_changes.Count == 0)
-                    return;
-                // END
-
-                obj.Id = (Guid)_entityGuid;
-                _service.Update(obj);
-            }
-            else
-            {
-                // This is an Create
-                _entityGuid = _service.Create(obj);
-            }
-            _changes = new Dictionary<string, object>();
+            var obj = GetUpdatedEntity(true);
+            if (obj == null) return;
+            if (EntityGuid == null) EntityGuid = Service.Create(obj);
+            else Service.Update(obj);
         }
 
         public void Delete()
         {
             // Check the id 
-            if (_entityGuid != null)
-                _service.Delete(_logicalName, (Guid)_entityGuid);
+            if (EntityGuid != null)
+                Service.Delete(LogicalName, (Guid)EntityGuid);
         }
 
         /// <summary>
@@ -148,16 +95,16 @@ namespace AetherFlow.Xrm.Framework.Core
         public EntityBase Get(string[] attributes)
         {
             // If we have no id, do nothing
-            if (_entityGuid == null)
+            if (EntityGuid == null)
                 return null;
 
             // Get the attributes;
             Entity entity;
             try
             {
-                entity = _service.Retrieve(
-                    _logicalName,
-                    (Guid)_entityGuid,
+                entity = Service.Retrieve(
+                    LogicalName,
+                    (Guid)EntityGuid,
                     new ColumnSet(attributes)
                 );
             }
@@ -168,13 +115,13 @@ namespace AetherFlow.Xrm.Framework.Core
 
             // Foreach attribute, add to the entity;
             foreach (var attribute in attributes)
-                if (_values.ContainsKey(attribute))
-                    _values[attribute] =
+                if (Values.ContainsKey(attribute))
+                    Values[attribute] =
                         entity.Contains(attribute)
                             ? entity[attribute]
                             : null;
                 else
-                    _values.Add(
+                    Values.Add(
                         attribute,
                         entity.Contains(attribute)
                             ? entity[attribute]
@@ -183,10 +130,10 @@ namespace AetherFlow.Xrm.Framework.Core
 
             // We have updated the entity.. 
             // Remove all changes relating to the fields updated
-            var tmp = _changes;
-            _changes = new Dictionary<string, object>();
+            var tmp = Changes;
+            Changes = new Dictionary<string, object>();
             foreach (var change in tmp.Where(change => !attributes.Contains(change.Key)))
-                _changes.Add(change);
+                Changes.Add(change);
 
             // Finally return this object
             return this;
@@ -198,12 +145,9 @@ namespace AetherFlow.Xrm.Framework.Core
         /// <returns></returns>
         public DeleteRequest DeleteRequest()
         {
-            if (_entityGuid == null)
-                return null;
+            if (EntityGuid == null) return null;
 
-            // return the delete request
-            return new DeleteRequest
-            {
+            return new DeleteRequest {
                 Target = GetReference()
             };
         }
@@ -214,22 +158,11 @@ namespace AetherFlow.Xrm.Framework.Core
         /// <returns></returns>
         public UpdateRequest UpdateRequest()
         {
-            if (_entityGuid == null)
-                return null;
-
-            // RA:  27.11.2016  -   Again, ensure there are changes!
-            if (_changes.Count == 0)
-                return null;
-            // END
-
-            // Create the new Entity object
-            var obj = new Entity(_logicalName) { Id = (Guid)_entityGuid };
-
-            // Add all changes attributes;
-            obj.Attributes.AddRange(_changes);
+            if (EntityGuid == null) return null;
+            if (Changes.Count == 0) return null;
 
             // Return the update, this can then be bulk updated
-            return new UpdateRequest { Target = obj };
+            return new UpdateRequest { Target = GetUpdatedEntity() };
         }
 
         /// <summary>
@@ -238,58 +171,10 @@ namespace AetherFlow.Xrm.Framework.Core
         /// <returns></returns>
         public CreateRequest CreateRequest()
         {
-            // Create the new Entity object
-            var obj = new Entity(_logicalName);
+            if (EntityGuid != null) return null;
 
-            // Add all changes attributes;
-            obj.Attributes.AddRange(_changes);
-
-            // Add the ID
-            if (_entityGuid != null)
-                obj.Id = (Guid)_entityGuid;
-
-            // Return the update, this can then be bulk updated
-            return new CreateRequest { Target = obj };
+            // Return the create object, this can then be bulk updated
+            return new CreateRequest { Target = GetUpdatedEntity() };
         }
-
-        public EntityReference GetReference()
-        {
-            if (Id == null)
-                throw new Exception("Unable to get Reference of a non created entity");
-            return new EntityReference(_logicalName, Id.Value);
-        }
-
-        protected T? GetOptionSetValue<T>(string attributeName) where T : struct, Enum
-        {
-            if (!_values.ContainsKey(attributeName))
-                return null;
-
-            var value = this[attributeName];
-            if (value is OptionSetValue osv)
-                return (T)Convert.ChangeType(osv.Value, typeof(T));
-
-            return null;
-        }
-
-        protected void SetOptionSetValue<T>(string attributeName, T? value) where T : struct, Enum
-        {
-            var optionSetValue = value == null ? null : new OptionSetValue(Convert.ToInt32(value));
-            this[attributeName] = optionSetValue;
-        }
-
-        protected void SetLookup(string attributeName, EntityReference value, string[] allowedEntities)
-        {
-            if (value == null)
-            {
-                this[attributeName] = null;
-                return;
-            }
-
-            if (!allowedEntities.Contains(value.LogicalName))
-                throw new Exception($"Entity {value.LogicalName} is not valid for attribute {attributeName}");
-            
-            this[attributeName] = value;
-        }
-
     }
 }
