@@ -92,12 +92,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementations\DataAccess\ContactDal.cs" />
+    <Compile Include="Interfaces\IContactDal.cs" />
+    <Compile Include="Models\Contact.cs" />
+    <Compile Include="Plugins\UpdateTargetContact.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\AetherFlow.Xrm.Framework.Core\AetherFlow.Xrm.Framework.Core.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

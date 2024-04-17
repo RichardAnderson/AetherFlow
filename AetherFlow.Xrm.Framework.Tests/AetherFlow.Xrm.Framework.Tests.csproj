@@ -115,8 +115,9 @@
     <Compile Include="Example\Interfaces\IInstanceWithOneConstructor.cs" />
     <Compile Include="Example\Interfaces\IInstanceWithTwoConstructors.cs" />
     <Compile Include="Example\Interfaces\IInstanceWithUnresolvableConstructor.cs" />
-    <Compile Include="Example\Models\Contact.cs" />
     <Compile Include="Interfaces\ISpecification.cs" />
+    <Compile Include="PluginSpecification.cs" />
+    <Compile Include="PluginTests\UpdateTargetContactExecutes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecificationBase.cs" />
   </ItemGroup>
@@ -129,10 +130,15 @@
       <Project>{c3a56f24-0efc-4f21-bff3-779e925dea22}</Project>
       <Name>AetherFlow.Xml.Framework.Core.Net</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AetherFlow.Xrm.FakeXrmEasy.Net\AetherFlow.Xrm.FakeXrmEasy.Net.csproj">
+      <Project>{A307E46D-F279-466B-AB41-525780092A37}</Project>
+      <Name>AetherFlow.Xrm.FakeXrmEasy.Net</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

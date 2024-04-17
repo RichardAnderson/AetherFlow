@@ -11,12 +11,17 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\DefaultAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\LabelAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\TraceConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EntityTracker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataverseContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EntityBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\FieldsBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IDataverseContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILog.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ITraceConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PluginBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processors\BulkExecutor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IBulkExecutor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IQueryPager.cs" />
@@ -24,5 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Constants\" />
   </ItemGroup>
 </Project>

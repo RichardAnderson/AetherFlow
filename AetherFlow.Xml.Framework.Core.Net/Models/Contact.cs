@@ -4,7 +4,7 @@ using AetherFlow.Xrm.Framework.Core.Attributes;
 using AetherFlow.Xrm.Framework.Core.Helpers;
 using Microsoft.Xrm.Sdk;
 
-namespace AetherFlow.Xrm.Framework.Tests.Example.Models
+namespace AetherFlow.Xml.Framework.Core.Net.Models
 {
     public class Contact : EntityBase
     {

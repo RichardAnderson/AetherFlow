@@ -62,7 +62,7 @@ namespace AetherFlow.Xrm.Framework.Core
         private ConstructorInfo GetBestConstructor(IEnumerable<ConstructorInfo> constructors) => 
             constructors
                 .Where(a => a.GetParameters().All(b => b.ParameterType.IsInterface))
-                .Where(a => a.GetParameters().All(b => _implementations.ContainsKey(b.ParameterType)))
+                .Where(a => a.GetParameters().All(b => _implementations.ContainsKey(b.ParameterType) || _services.Any(c => b.ParameterType.IsInstanceOfType(c))))
                 .OrderByDescending(a => a.GetParameters().Length)
                 .FirstOrDefault();
 
@@ -70,13 +70,16 @@ namespace AetherFlow.Xrm.Framework.Core
         {
             // This is used to allow us to override the default
             // implementation of a service with a MockService
-            _implementations[typeof(TKey)] = typeof(T);
+            if (!_implementations.ContainsKey(typeof(TKey)))
+                _implementations[typeof(TKey)] = typeof(T);
         }
 
         public void Add<TKey>(object instance)
         {
             // This is to be able to register a new object into the container
-            _services.Add(instance);
+            // Only do this if the instance has not already been added!
+            if (!_services.Any(a => a is TKey))
+                _services.Add(instance);
         }
 
         public T Get<T>()
