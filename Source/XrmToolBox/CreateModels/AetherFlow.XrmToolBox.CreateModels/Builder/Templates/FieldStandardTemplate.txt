@@ -1,0 +1,5 @@
+		public {{Type}} {{Name}}
+		{
+			get => ({{Type}})this[Fields.{{Name}}];
+			set => this[Fields.{{Name}}] = value;
+		}

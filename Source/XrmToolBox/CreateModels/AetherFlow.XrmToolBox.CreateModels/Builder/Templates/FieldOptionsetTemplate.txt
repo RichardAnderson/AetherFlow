@@ -1,0 +1,5 @@
+		public {{Global}}Choices.{{Optionset}}? {{Name}}
+		{
+			get => GetOptionSetValue<{{Global}}Choices.{{Optionset}}>(Fields.{{Name}});
+			set => SetOptionSetValue(Fields.{{Name}}, value);
+		}

@@ -1,0 +1,2 @@
+			{{Labels}}
+			public const string {{FieldName}} = "{{AttributeName}}";

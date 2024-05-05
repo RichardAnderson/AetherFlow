@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AetherFlow.XrmToolBox.CreateModels.Presentation", "AetherFlow.XrmToolBox.CreateModels.Presentation\AetherFlow.XrmToolBox.CreateModels.Presentation.csproj", "{B25E82FD-DC8C-43F8-A0BE-4D7EDE07C0D8}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AetherFlow.XrmToolBox.CreateModels", "AetherFlow.XrmToolBox.CreateModels\AetherFlow.XrmToolBox.CreateModels.shproj", "{D67E6EC7-8B7D-416C-9AA3-E0305F9C606A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AetherFlow.XrmToolBox.CreateModels.Tests", "AetherFlow.XrmToolBox.CreateModels.Tests\AetherFlow.XrmToolBox.CreateModels.Tests.csproj", "{E5A551C6-8E87-476E-B8FB-332BADCA54BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B25E82FD-DC8C-43F8-A0BE-4D7EDE07C0D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B25E82FD-DC8C-43F8-A0BE-4D7EDE07C0D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B25E82FD-DC8C-43F8-A0BE-4D7EDE07C0D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B25E82FD-DC8C-43F8-A0BE-4D7EDE07C0D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5A551C6-8E87-476E-B8FB-332BADCA54BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5A551C6-8E87-476E-B8FB-332BADCA54BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5A551C6-8E87-476E-B8FB-332BADCA54BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5A551C6-8E87-476E-B8FB-332BADCA54BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {75B2F778-74FD-4636-B70A-5888286A6752}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		AetherFlow.XrmToolBox.CreateModels\AetherFlow.XrmToolBox.CreateModels.projitems*{b25e82fd-dc8c-43f8-a0be-4d7ede07c0d8}*SharedItemsImports = 4
+		AetherFlow.XrmToolBox.CreateModels\AetherFlow.XrmToolBox.CreateModels.projitems*{d67e6ec7-8b7d-416c-9aa3-e0305f9c606a}*SharedItemsImports = 13
+		AetherFlow.XrmToolBox.CreateModels\AetherFlow.XrmToolBox.CreateModels.projitems*{e5a551c6-8e87-476e-b8fb-332badca54ba}*SharedItemsImports = 4
+	EndGlobalSection
+EndGlobal

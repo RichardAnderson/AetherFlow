@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>d67e6ec7-8b7d-416c-9aa3-e0305f9c606a</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>AetherFlow.XrmToolBox.CreateModels</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Builder\Templates\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Builder\BaseFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Builder\ClassFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Builder\EntityFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Builder\FieldAttributeFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Builder\FieldDefinitionFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Builder\LabelFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Builder\OptionSetFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)builder\templates\ClassTemplate.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)builder\templates\LabelTemplate.txt" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)builder\templates\EntityTemplate.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)builder\templates\FieldDefinitionTemplate.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)builder\templates\FieldStandardTemplate.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)builder\templates\FieldLookupTemplate.txt" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)builder\templates\FieldOptionsetTemplate.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)builder\templates\OptionSetTemplate.txt" />
+  </ItemGroup>
+</Project>

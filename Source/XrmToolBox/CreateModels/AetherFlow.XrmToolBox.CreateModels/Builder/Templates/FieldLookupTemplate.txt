@@ -1,0 +1,5 @@
+		public EntityReference {{Name}}
+		{
+			get => (EntityReference)this[Fields.{{Name}}];
+			set => SetLookup(Fields.{{Name}}, value, new[] { {{LookupTypes}} });
+		}

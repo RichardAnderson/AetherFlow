@@ -1,0 +1,25 @@
+	{{ClassLabels}}
+	public class {{ClassName}} : EntityBase
+	{
+		public static readonly string LogicalName = "{{LogicalName}}";
+		public static readonly string SchemaName = "{{SchemaName}}";
+		public static readonly string IdAttribute = "{{IdAttribute}}";
+		public static readonly string PrimaryAttribute = "{{PrimaryAttribute}}";
+		public static readonly string CollectionName = "{{CollectionName}}";
+
+		public {{ClassName}}(Entity record, IOrganizationService service) : base(LogicalName, record, service) { }
+		public {{ClassName}}(IOrganizationService service = null) : base(LogicalName, service) { }
+		public {{ClassName}}(Guid id, IOrganizationService service) : base(LogicalName, id, service) { }
+
+		public static class Fields 
+		{
+			{{FieldDefinitionContent}}
+		}
+
+		public static class Choices
+		{
+			{{ChoicesContent}}
+		}
+
+		{{FieldAttributeContent}}
+	}

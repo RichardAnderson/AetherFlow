@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Builds", "Builds", "{44D60203-5375-4FFD-8A7E-B2F46AF47AA8}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AetherFlow.Xrm.FakeXrmEasy", "AetherFlow.Xrm.FakeXrmEasy\AetherFlow.Xrm.FakeXrmEasy.shproj", "{C3C02AD0-EE41-4A55-B172-223EFDBE96B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AetherFlow.Xrm.FakeXrmEasy.Net", "AetherFlow.Xrm.FakeXrmEasy.Net\AetherFlow.Xrm.FakeXrmEasy.Net.csproj", "{A307E46D-F279-466B-AB41-525780092A37}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AetherFlow.Xrm.FakeXrmEasy.NetStandard", "AetherFlow.Xrm.FakeXrmEasy.NetStandard\AetherFlow.Xrm.FakeXrmEasy.NetStandard.csproj", "{622CC3B6-D0D8-4F0E-A0F6-E740A6EA9DD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AetherFlow.Xrm.FakeXrmEasy.Net.Tests", "AetherFlow.Xrm.FakeXrmEasy.Net.Tests\AetherFlow.Xrm.FakeXrmEasy.Net.Tests.csproj", "{4DBE3742-8974-40F2-B8D6-DF5E4152A520}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A307E46D-F279-466B-AB41-525780092A37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A307E46D-F279-466B-AB41-525780092A37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A307E46D-F279-466B-AB41-525780092A37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A307E46D-F279-466B-AB41-525780092A37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{622CC3B6-D0D8-4F0E-A0F6-E740A6EA9DD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{622CC3B6-D0D8-4F0E-A0F6-E740A6EA9DD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{622CC3B6-D0D8-4F0E-A0F6-E740A6EA9DD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{622CC3B6-D0D8-4F0E-A0F6-E740A6EA9DD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DBE3742-8974-40F2-B8D6-DF5E4152A520}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DBE3742-8974-40F2-B8D6-DF5E4152A520}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DBE3742-8974-40F2-B8D6-DF5E4152A520}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DBE3742-8974-40F2-B8D6-DF5E4152A520}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A307E46D-F279-466B-AB41-525780092A37} = {44D60203-5375-4FFD-8A7E-B2F46AF47AA8}
+		{622CC3B6-D0D8-4F0E-A0F6-E740A6EA9DD2} = {44D60203-5375-4FFD-8A7E-B2F46AF47AA8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {72DDEB06-FE0D-47A0-B3BE-07DEAA42974D}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		AetherFlow.Xrm.FakeXrmEasy\AetherFlow.Xrm.FakeXrmEasy.projitems*{622cc3b6-d0d8-4f0e-a0f6-e740a6ea9dd2}*SharedItemsImports = 5
+		AetherFlow.Xrm.FakeXrmEasy\AetherFlow.Xrm.FakeXrmEasy.projitems*{a307e46d-f279-466b-ab41-525780092a37}*SharedItemsImports = 4
+		AetherFlow.Xrm.FakeXrmEasy\AetherFlow.Xrm.FakeXrmEasy.projitems*{c3c02ad0-ee41-4a55-b172-223efdbe96b5}*SharedItemsImports = 13
+	EndGlobalSection
+EndGlobal
