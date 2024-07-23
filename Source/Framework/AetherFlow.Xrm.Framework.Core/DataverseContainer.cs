@@ -11,11 +11,16 @@ namespace AetherFlow.Xrm.Framework.Core
         private readonly IDictionary<Type, List<Type>> _implementations = new Dictionary<Type, List<Type>>();
         private readonly IList<object> _services = new List<object>();
 
-        public void Initialize(Assembly assembly, string rootNamespace)
+        public void Initialize(Assembly assembly, string rootNamespace) 
+            => Initialize(assembly, new[] { rootNamespace });
+
+        public void Initialize(Assembly assembly, string[] rootNamespaces)
         {
             // Use reflection to get a list of types
             var types = assembly.GetTypes()
-                .Where(t => t.Namespace != null && t.Namespace.StartsWith(rootNamespace) && t.IsInterface)
+                .Where(t => t.Namespace != null && t.IsInterface)
+                .Where(t => rootNamespaces.Any(ns => t.Namespace.StartsWith(ns)))
+                .Distinct()
                 .ToArray();
 
             // Loop through the types and register an implementation
@@ -116,8 +121,11 @@ namespace AetherFlow.Xrm.Framework.Core
         /// <returns></returns>
         private ConstructorInfo GetBestConstructor(IEnumerable<ConstructorInfo> constructors) => 
             constructors
-                .Where(a => a.GetParameters().All(b => b.ParameterType.IsInterface))
-                .Where(a => a.GetParameters().All(b => _implementations.ContainsKey(b.ParameterType) || _services.Any(c => b.ParameterType.IsInstanceOfType(c))))
+                .Where(
+                    a => a.GetParameters()
+                        .Where(b => b.ParameterType.IsInterface)
+                        .All(c => _implementations.ContainsKey(c.ParameterType) || _services.Any(d => c.ParameterType.IsInstanceOfType(d)))
+                )
                 .OrderByDescending(a => a.GetParameters().Length)
                 .FirstOrDefault();
 
@@ -148,48 +156,71 @@ namespace AetherFlow.Xrm.Framework.Core
 
         public T Get<T>()
         {
-            // We want to validate that the type the user is attempting to get
-            // is always an interface... we don't want them to be able to specify 
-            // a class, as we always want to control the creation of the class
-            if (!typeof(T).IsInterface)
-                throw new InvalidOperationException("You can only get an instance of an interface");
-
-            // Try to get an instance of the service
-            var service = (T)GetServiceSingleton(typeof(T));
-            if (service != null) return service;
+            // We want to get a singleton of the instance if an interface,
+            // however for a concrete class, we want to return a new instance 
+            // every time.  We don't want to duplicate configuration - so we 
+            // exclude classes assignable from IConfiguration from this rule.
+            if (ShouldUseSingleton(typeof(T)))
+            {
+                // This is an interface or configuration, so attempt to get
+                // the singleton from our services
+                var service = (T)GetServiceSingleton(typeof(T));
+                if (service != null) return service;
+            }
 
             // We did not find a service, therefore, we should create
             // a new instance of the service through dependency injection
             // and then return it!
-            var newService = (T)Get(typeof(T));
-            return newService;
+            return (T)Get(typeof(T));
         }
 
         private object Get(Type type)
         {
+            // Store the type of the implementation.  We will need this to understand
+            // what type of object we are creating
+            Type implementation;
+            
             // We need to once again attempt to get the implementation, as this
-            // function is recursive
-            var service = GetServiceSingleton(type);
-            if (service != null) return service;
+            // function is recursive, however, we only want this to happen for interfaces
+            // where it's a concrete implementation we want a new instance every time!
+            if (ShouldUseSingleton(type))
+            {
+                var service = GetServiceSingleton(type);
+                if (service != null) return service;
+            }
 
-            // We now need to get the implementation of the interface
-            // We should check we actually have one first
-            if ((type.IsGenericType && GetImplementationForGenericType(type) == null) || (!type.IsGenericType && !_implementations.ContainsKey(type)))
-                throw new InvalidOperationException($"No implementation found for {type.FullName}");
+            if (type.IsInterface)
+            {
+                // We now need to get the implementation of the interface
+                // We should check we actually have one first
+                if ((type.IsGenericType && GetImplementationForGenericType(type) == null) || (!type.IsGenericType && !_implementations.ContainsKey(type)))
+                    throw new InvalidOperationException($"No implementation found for {type.FullName}");
 
-            // Get the implementation and create an instance of it
-            var implementation = type.IsGenericType ? GetImplementationForGenericType(type) : _implementations[type].First();
+                // Get the implementation
+                implementation = type.IsGenericType ? GetImplementationForGenericType(type) : _implementations[type].First();
+            } 
+            else
+            {
+                // The implementation IS the type thats being passed
+                // as this is not an interface.
+                implementation = type;
+            }
+
+            // Create an instance of the implementation
             var constructor = GetBestConstructor(implementation.GetConstructors());
             var parameters = constructor?.GetParameters().Select(a => Get(a.ParameterType)).ToArray();
             var instance = Activator.CreateInstance(implementation, parameters);
 
             // Register the instance as a singleton in the 
-            // services list
-            _services.Add(instance);
+            // services list - however, only if the request is an interface
+            if (type.IsInterface) _services.Add(instance);
 
             // return the instance
             return instance;
         }
+
+        private bool ShouldUseSingleton(Type type) =>
+            type.IsInterface || typeof(IConfiguration).IsAssignableFrom(type);
 
         private Type GetImplementationForGenericType(Type type) =>
             _implementations

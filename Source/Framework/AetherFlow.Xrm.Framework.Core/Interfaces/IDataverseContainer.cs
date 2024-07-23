@@ -13,6 +13,14 @@ namespace AetherFlow.Xrm.Framework.Core.Interfaces
         void Initialize(Assembly assembly, string rootNamespace);
 
         /// <summary>
+        /// Initialize a collection of interfaces with implementations from a
+        /// given assembly, starting with one of the provided namespaces
+        /// </summary>
+        /// <param name="assembly">The Assembly to identify interfaces and implementations from</param>
+        /// <param name="rootNamespaces">An array of namespaces for Interfaces</param>
+        void Initialize(Assembly assembly, string[] rootNamespaces);
+
+        /// <summary>
         /// Add a custom implementation for a given type of interface
         /// </summary>
         /// <typeparam name="TKey">Interface to provide the implementation for</typeparam>

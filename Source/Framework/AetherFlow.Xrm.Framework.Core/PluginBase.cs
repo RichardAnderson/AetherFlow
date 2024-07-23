@@ -9,14 +9,17 @@ namespace AetherFlow.Xrm.Framework.Core
 {
     public abstract class PluginBase : IPlugin
     {
-        private readonly ITraceConfiguration _traceConfiguration;
+        protected readonly string SecureConfig = "";
+        protected readonly string UnSecureConfig = "";
 
-        protected PluginBase(ITraceConfiguration traceConfiguration = null)
+        protected PluginBase() { }
+        protected PluginBase(string unSecure, string secure)
         {
-            _traceConfiguration = traceConfiguration ?? new TraceConfiguration();
+            UnSecureConfig = unSecure;
+            SecureConfig = secure;
         }
 
-        protected virtual void ExecuteCrmPlugin(IDataverseContainer container) { }
+        protected virtual void Configure(ActionExecutor builder) { }
 
         public void Execute(IServiceProvider serviceProvider)
         {
@@ -40,7 +43,7 @@ namespace AetherFlow.Xrm.Framework.Core
             container.Add<IServiceEndpointNotificationService>(notificationService);
             container.Add<IOrganizationServiceFactory>(serviceFactory);
             container.Add<IOrganizationService>(organizationService);
-            container.Add<ITraceConfiguration>(_traceConfiguration);
+            //container.Add<ITraceConfiguration>(new TraceConfiguration());
 
             // Add generic interfaces to the container
             // Then get an instance of the log object
@@ -48,9 +51,14 @@ namespace AetherFlow.Xrm.Framework.Core
             var log = container.Get<ILog>();
 
             // Now, lets run the execute command, but wrap in a try catch
-            try { ExecuteCrmPlugin(container); }
+            try
+            {
+                Configure(new ActionExecutor(container, SecureConfig, UnSecureConfig));
+            }
             catch (Exception ex)
             {
+                throw;
+                
                 // Ignore correctly thrown exception
                 if (ex is InvalidPluginExecutionException) throw;
 

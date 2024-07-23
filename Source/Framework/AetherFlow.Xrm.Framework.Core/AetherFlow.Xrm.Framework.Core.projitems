@@ -9,6 +9,7 @@
     <Import_RootNamespace>AetherFlow.Xrm.Framework.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ActionExecutor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\DefaultAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\LabelAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\TraceConfiguration.cs" />
@@ -17,9 +18,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)EntityBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\FieldsBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\JsonContractSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IDataverseContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IJsonSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILog.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ITraceConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IPluginAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PluginBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processors\BulkExecutor.cs" />
@@ -28,7 +32,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processors\QueryPager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
     <Folder Include="$(MSBuildThisFileDirectory)Constants\" />
   </ItemGroup>
 </Project>

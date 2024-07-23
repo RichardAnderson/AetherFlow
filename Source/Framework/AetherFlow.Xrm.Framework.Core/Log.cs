@@ -1,16 +1,17 @@
 ﻿ using AetherFlow.Xrm.Framework.Core.Interfaces;
 using Microsoft.Xrm.Sdk;
 using System;
+ using AetherFlow.Xrm.Framework.Core.Configuration;
 
-namespace AetherFlow.Xrm.Framework.Core
+ namespace AetherFlow.Xrm.Framework.Core
 {
     public class Log : ILog
     {
         private readonly ITracingService _tracingService;
-        private readonly ITraceConfiguration _config;
+        private readonly TraceConfiguration _config;
         private readonly string _format = "{0}___{1}___{2}";
 
-        public Log(ITracingService tracingService, ITraceConfiguration traceConfiguration)
+        public Log(ITracingService tracingService, TraceConfiguration traceConfiguration)
         {
             _tracingService = tracingService;
             _config = traceConfiguration;

@@ -2,7 +2,7 @@
 
 namespace AetherFlow.Xrm.Framework.Core.Configuration
 {
-    public class TraceConfiguration : ITraceConfiguration
+    public class TraceConfiguration : IConfiguration
     {
         public bool ShouldLogInfo { get; set; } = false;
         public bool ShouldLogDebug { get; set; } = true;

@@ -39,8 +39,8 @@ Global
 		SolutionGuid = {37626CE3-F71A-4A59-9D90-77184B05188F}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		AetherFlow.Xrm.Framework.Core\AetherFlow.Xrm.Framework.Core.projitems*{8a7bc527-6415-4a4b-ad05-b9b89604b94d}*SharedItemsImports = 4
-		..\FakeXrmEasy\AetherFlow.Xrm.FakeXrmEasy\AetherFlow.Xrm.FakeXrmEasy.projitems*{a307e46d-f279-466b-ab41-525780092a37}*SharedItemsImports = 4
+		AetherFlow.Xrm.Framework.Core\AetherFlow.Xrm.Framework.Core.projitems*{8a7bc527-6415-4a4b-ad05-b9b89604b94d}*SharedItemsImports = 5
+		..\FakeXrmEasy\AetherFlow.Xrm.FakeXrmEasy\AetherFlow.Xrm.FakeXrmEasy.projitems*{a307e46d-f279-466b-ab41-525780092a37}*SharedItemsImports = 5
 		..\FakeXrmEasy\AetherFlow.Xrm.FakeXrmEasy\AetherFlow.Xrm.FakeXrmEasy.projitems*{c3c02ad0-ee41-4a55-b172-223efdbe96b5}*SharedItemsImports = 13
 		AetherFlow.Xrm.Framework.Core\AetherFlow.Xrm.Framework.Core.projitems*{e23739d8-201e-4b7f-807f-9b1d7dc7607e}*SharedItemsImports = 13
 	EndGlobalSection
