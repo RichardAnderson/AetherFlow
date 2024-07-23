@@ -31,7 +31,4 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IQueryPager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processors\QueryPager.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Constants\" />
-  </ItemGroup>
 </Project>
